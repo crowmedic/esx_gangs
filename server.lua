@@ -45,13 +45,7 @@ RegisterServerEvent('esx_gangs:getGangLocker')--Gets weapons in gang locker
 RegisterServerEvent('esx_gangs:modifyGangLocker')--Modifies gang weapon locker
 
 AddEventHandler('esx_gangs:onPlayerConnect', function(player, cb)
-	local identifier = player
-	local cbdata = {}
-	local
-	MySQL.Async.fetchAll('SELECT gang, gang_grade FROM users WHERE `identifier`=@identifier;', {['@identifier'] = identifier}, function(gang, gang_grade)
-		table.insert (cbdata {cbdata.gang = gang, cbdata.gang_grade = gang_grade})
-	end)
-	cb(cbdata)
+
 end)
 
 AddEventHandler('esx_gangs:getGangData', function()
