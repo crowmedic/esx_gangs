@@ -1,9 +1,10 @@
 ESX = nil
+ESX.Gangs = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 ESX.Gangs = {}
 
-AddEventHandler('onMySQLReady', function (cb)
+AddEventHandler('onMySQLReady', function ()
 
   MySQL.Async.fetchAll('SELECT * FROM gangs', {}, function(gangs)
 
@@ -27,8 +28,7 @@ AddEventHandler('onMySQLReady', function (cb)
 		label = gang_grades[i].label
 	  })
 	end
-  end)
-  cb(ESX.Gangs)  
+  end)  
 end)
 
 RegisterServerEvent('esx_gangs:onPlayerConnect')
