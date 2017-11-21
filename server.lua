@@ -11,7 +11,7 @@ AddEventHandler('onMySQLReady', function ()
     for i=1, #gangs, 1 do
 	  local name = gang[i].name
       table.insert(ESX.Gangs.name, {
-        label     = Gangs[i].label
+        label     = gangs[i].label
 		ranks	  = {}
       })
 
