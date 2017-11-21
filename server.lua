@@ -1,7 +1,8 @@
 ESX = nil
-Config.Gangs = {}
+ESX.Gangs = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+ESX.Gangs = {}
 
 AddEventHandler('onMySQLReady', function (cb)
 
@@ -9,7 +10,7 @@ AddEventHandler('onMySQLReady', function (cb)
 
     for i=1, #gangs, 1 do
 	  local name = gang[i].name
-      table.insert(Config.Gangs.name, {
+      table.insert(ESX.Gangs.name, {
         label     = Gangs[i].label
 		ranks	  = {}
       })
@@ -21,14 +22,14 @@ AddEventHandler('onMySQLReady', function (cb)
   MySQL.Async.fetchAll('SELECT * FROM gang_grades', {}, function(gang_grades)
     for i=1, #gang_grades, 1 do
 	  local name = gang_grades[i].gang_name
-	  table.insert(Config.Gangs.name.ranks, {
+	  table.insert(ESX.Gangs.name.ranks, {
 		grade = gang_grades[i].grade
 		name = gang_grades[i].name
 		label = gang_grades[i].label
 	  })
 	end
   end)
-  cb(Config.Gangs)  
+  cb(ESX.Gangs)  
 end)
 
 RegisterServerEvent('esx_gangs:onPlayerConnect')
@@ -45,7 +46,7 @@ RegisterServerEvent('esx_gangs:getGangLocker')--Gets weapons in gang locker
 RegisterServerEvent('esx_gangs:modifyGangLocker')--Modifies gang weapon locker
 
 AddEventHandler('esx_gangs:onPlayerConnect', function(player, cb)
-
+  local 
 end)
 
 AddEventHandler('esx_gangs:getGangData', function()
