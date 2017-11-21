@@ -47,7 +47,7 @@ AddEventHandler('esx_gangs:onPlayerConnect', function(player, cb)
   local 
 end)
 
-AddEventHandler('esx_gangs:getGangData', function()
+AddEventHandler('esx_gangs:getGangData', function(source, gang, cb)
 
 end)
 
