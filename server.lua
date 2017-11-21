@@ -1,5 +1,4 @@
 ESX = nil
-ESX.Gangs = {}
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 ESX.Gangs = {}
