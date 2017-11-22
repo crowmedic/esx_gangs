@@ -10,7 +10,7 @@ AddEventHandler('onMySQLReady', function ()
     for i=1, #gangs, 1 do
 	  local name = gang[i].name
       table.insert(ESX.Gangs.name, {
-        label     = gangs[i].label
+        label     = gangs[i].label,
 		ranks	  = {}
       })
 
@@ -23,7 +23,7 @@ AddEventHandler('onMySQLReady', function ()
 	  local name = gang_grades[i].gang_name
 	  local grade = gang_grades[i].grade
 	  table.insert(ESX.Gangs.name.ranks.grade, {
-		name = gang_grades[i].name
+		name = gang_grades[i].name,
 		label = gang_grades[i].label
 	  })
 	end
@@ -31,7 +31,6 @@ AddEventHandler('onMySQLReady', function ()
 end)
 
 RegisterServerEvent('esx_gangs:onPlayerConnect')
-RegisterServerEvent('esx_gangs:getGangData')--Fetches SQL data on gangs for player
 RegisterServerEvent('esx_gangs:getGangMembers')--Fetches all players in one gang
 RegisterServerEvent('esx_gangs:getPlayerGang')--Fetches player current gang
 RegisterServerEvent('esx_gangs:setPlayerGang')--Sets player gang
@@ -52,10 +51,6 @@ AddEventHandler('esx_gangs:onPlayerConnect', function(playerID, cb)
 	table.insert(gangData, {playerGang = gang, playerGangGrade = gang_grade})
   end)
   cb(gangData)
-end)
-
-AddEventHandler('esx_gangs:getGangData', function(source, gang, cb)
-
 end)
 
 AddEventHandler('esx_gangs:getGangMembers', function(gang, cb)
