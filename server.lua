@@ -43,8 +43,15 @@ RegisterServerEvent('esx_gangs:removeGangMoney')--Removes money from society
 RegisterServerEvent('esx_gangs:getGangLocker')--Gets weapons in gang locker
 RegisterServerEvent('esx_gangs:modifyGangLocker')--Modifies gang weapon locker
 
-AddEventHandler('esx_gangs:onPlayerConnect', function(player, cb)
-  local 
+AddEventHandler('esx_gangs:onPlayerConnect', function(playerID, cb)
+  local identifier = playerID.getIdentifier()
+  local gangData = {}
+  MySQL.Async.fetchAll('SELECT gang, gang_grade FROM users WHERE identifier = @identifier', {['@identifier'] = identifier}, function(gangInfo)
+	local gang = gangInfo.gang
+	local grade = gangInfo.gang_grade
+	table.insert(gangData, {playerGang = gang, playerGangGrade = gang_grade})
+  end)
+  cb(gangData)
 end)
 
 AddEventHandler('esx_gangs:getGangData', function(source, gang, cb)
