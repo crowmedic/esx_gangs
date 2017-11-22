@@ -16,19 +16,16 @@ ESX 				= nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 
-
-AddEventHandler('es:playerLoaded', function(source, _player)
-
-local source
+local xPlayer = 
 
 local xPlayer.Gang = {}
+
 TriggerServerEvent('esx_gangs:onPlayerConnect', function(source, gangData)
 
   xPlayer.Gang.gang = gangData.gang
   xPlayer.Gang.grade = gangData.playerGangGrade
-  xPlayer.Gang.gangLabel =ESX.Gangs.gangData.gang.label
-  xPlayer.Gang.gradeName = ESX.Gangs.gangData.gang.gangData.playerGangGrade.name
-  xPlayer.Gang.gradeLabel = ESX.Gangs.gangData.gang.gangData.playerGangGrade.label
+  xPlayer.Gang.gangLabel =ESX.Gangs.[gangData.gang].label
+  xPlayer.Gang.gradeName = ESX.Gangs.[gangData.gang].[gangData.playerGangGrade].name
+  xPlayer.Gang.gradeLabel = ESX.Gangs.[gangData.gang].[gangData.playerGangGrade].label
 
-end)
 end)
