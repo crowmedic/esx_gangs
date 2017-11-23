@@ -8,8 +8,8 @@ AddEventHandler('onMySQLReady', function ()
   MySQL.Async.fetchAll('SELECT * FROM gangs', {}, function(gangs)
 
     for i=1, #gangs, 1 do
-	  local name = gang[i].name
-      table.insert(ESX.Gangs.name, {
+	  local name = gangs[i].name
+      table.insert(ESX.Gangs[name], {
         label     = gangs[i].label,
 		ranks	  = {}
       })
@@ -22,7 +22,7 @@ AddEventHandler('onMySQLReady', function ()
     for i=1, #gang_grades, 1 do
 	  local name = gang_grades[i].gang_name
 	  local grade = gang_grades[i].grade
-	  table.insert(ESX.Gangs.name.ranks.grade, {
+	  table.insert(ESX.Gangs[name].ranks[grade], {
 		name = gang_grades[i].name,
 		label = gang_grades[i].label
 	  })
