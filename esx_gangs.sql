@@ -9,6 +9,9 @@ CREATE TABLE 'gangs' (
   PRIMARY KEY (`id`)
 );
 
+INSERT INTO gangs (name, label)
+VALUES ('none', 'Unaffiliated'); 
+
 CREATE TABLE 'gang_grades' (
 
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -20,3 +23,6 @@ CREATE TABLE 'gang_grades' (
   PRIMARY KEY (`id`)
 );
 
+
+INSERT INTO gang_grades (gang_name, grade, name, label)
+VALUES ('none', 0, 'none', 'Unaffiliated'); 
