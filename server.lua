@@ -1,18 +1,18 @@
 ESX = nil
 
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+
 ESX.Gangs = {}
+ESX.Gangs.Ranks = {}
 
 AddEventHandler('onMySQLReady', function ()
 
   MySQL.Async.fetchAll('SELECT * FROM gangs', {}, function(gangs)
 
     for i=1, #gangs, 1 do
-	  local name = gangs[i].name
       table.insert(ESX.Gangs, {
         name     = gangs[i].name,
-        label     = gangs[i].label,
-		ranks	  = {}
+        label     = gangs[i].label
       })
 
     end
@@ -21,8 +21,7 @@ AddEventHandler('onMySQLReady', function ()
   
   MySQL.Async.fetchAll('SELECT * FROM gang_grades', {}, function(gang_grades)
     for i=1, #gang_grades, 1 do
-	  local name = gang_grades[i].gang_name
-	  table.insert(ESX.Gangs.Ranks[name], {
+	  table.insert(ESX.Gangs.Ranks.[gang_grades[i].gang_name], {
 		grade = gang_grades[i].grade,
 		name = gang_grades[i].name,
 		label = gang_grades[i].label
