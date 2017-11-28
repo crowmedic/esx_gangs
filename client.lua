@@ -52,17 +52,12 @@ end)
 
 RegisterNetEvent('esx_gangs:UpdateGang')
 AddEventHandler('esx_gangs:UpdateGang', function (gangData)
-  local gang = gangData.gang
-  local grade = gangData.gang_grade
-  PlayerData.gang.name = gang
-  PlayerData.gang.gang_grade = grade
-  print ('GangData updated')
-  print (PlayerData.gang.name) -- these print proper data, confirming it is received from server properly
-  print (PlayerData.gang.gang_grade)
-	
-	PlayerData.gang.gang_label = ESX.Gangs[gang].label
-	PlayerData.gang.gang_grade_label = ESX.Gangs[gang].ranks[grade].label --this line throws error of indexing nil value when run.
-	PlayerData.gang.gang_grade_name = ESX.Gangs[gang].ranks[grade].name 
+
+  PlayerData.gang = gangData
+  print ('Gang Updated')
+  print (PlayerData.gang.gang_label)
+  print (PlayerData.gang.gang_grade_label)
+
 end)
 
 RegisterNetEvent('esx_gangs:GangMembers')
@@ -71,15 +66,20 @@ AddEventHandler('esx_gangs:GangMembers', function(members)
 end)
 
 
---Debug to check current gangdata
+--Debug to check current gangdata, will eventually create gang menu
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
 	if IsControlPressed(0,  Keys['[']) then
-	  Citizen.Wait(500)
-	  print ('---Displaying Gang Data---')
-	    print (PlayerData.gang.gang_label)
-	    print (PlayerData.gang.gang_grade_label)
+	  if PlayerData.gang.name ~= 'none' then
+        SetTextComponentFormat('STRING')
+        AddTextComponentString('You are a '..PlayerData.gang.gang_grade_label..' of the '..PlayerData.gang.gang_label)
+        DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+	  else
+        SetTextComponentFormat('STRING')
+        AddTextComponentString('You are not affiliated with any gang')
+		DisplayHelpTextFromStringLabel(0, 0, 1, -1)
+	  end
 	end
   end
 end)
