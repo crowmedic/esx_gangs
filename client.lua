@@ -45,26 +45,29 @@ AddEventHandler('esx_gangs:gangLoaded', function(gangData, Gangs)
 	print (PlayerData.gang.gang_grade)
 	
 	PlayerData.gang.gang_label = ESX.Gangs[gangData.gang].label
-	PlayerData.gang.gang_grade_label = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].label
+	PlayerData.gang.gang_grade_label = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].label --this line works, receiving the same type data as below
 	PlayerData.gang.gang_grade_name = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].name
 	
+end)
+
+RegisterNetEvent('esx_gangs:UpdateGang')
+AddEventHandler('esx_gangs:UpdateGang', function (gangData)
+  local gang = gangData.gang
+  local grade = gangData.gang_grade
+  PlayerData.gang.name = gang
+  PlayerData.gang.gang_grade = grade
+  print ('GangData updated')
+  print (PlayerData.gang.name) -- these print proper data, confirming it is received from server properly
+  print (PlayerData.gang.gang_grade)
+	
+	PlayerData.gang.gang_label = ESX.Gangs[gang].label
+	PlayerData.gang.gang_grade_label = ESX.Gangs[gang].ranks[grade].label --this line throws error of indexing nil value when run.
+	PlayerData.gang.gang_grade_name = ESX.Gangs[gang].ranks[grade].name 
 end)
 
 RegisterNetEvent('esx_gangs:GangMembers')
 AddEventHandler('esx_gangs:GangMembers', function(members)
    PlayerData.gang.members = members
-end)
-
-RegisterNetEvent('esx_gangs:UpdateGang')
-AddEventHandler('esx_gangs:UpdateGang', function (gang, grade)
-  PlayerData.gang = gang
-  PlayerData.gang_grade = grade
-  print ('GangData updated')
-  print (PlayerData.gang)
-  print (PlayerData.gang_grade)
-	PlayerData.gang.gang_label = ESX.Gangs[gang].label
-	PlayerData.gang.gang_grade_label = ESX.Gangs[gang].ranks[grade].label
-	PlayerData.gang.gang_grade_name = ESX.Gangs[gang].ranks[grade].name  
 end)
 
 
