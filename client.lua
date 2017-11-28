@@ -12,20 +12,68 @@ local Keys = {
 
 local GUI           = {}
 GUI.Time            = 0
-ESX 				= nil
+local PlayerData = {}
+PlayerData.gang = {
+  name = nil,
+  gang_grade = nil,
+  gang_label = nil,
+  gang_grade_label = nil,
+  gang_grade_name = nil
+}
 
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+ESX              = nil
 
-local xPlayer = 
+Citizen.CreateThread(function()
+	while ESX == nil do
+		TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+		Citizen.Wait(0)
+	end
+	print ('ESX received from server')
+end)
 
-local xPlayer.Gang = {}
 
-TriggerServerEvent('esx_gangs:onPlayerConnect', function(source, gangData)
+RegisterNetEvent('esx_gangs:gangLoaded')
+AddEventHandler('esx_gangs:gangLoaded', function(gangData, Gangs)
+    PlayerData.gang.name = gangData.gang
+    PlayerData.gang.gang_grade = gangData.gang_grade
+	ESX.Gangs = Gangs
+	print ('GangData recieved')
+	print (PlayerData.gang.name)
+	print (PlayerData.gang.gang_grade)
+	
+	PlayerData.gang.gang_label = ESX.Gangs[gangData.gang].label
+	PlayerData.gang.gang_grade_label = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].label
+	PlayerData.gang.gang_grade_name = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].name
+	
+end)
 
-  xPlayer.Gang.gang = gangData.gang
-  xPlayer.Gang.grade = gangData.playerGangGrade
-  xPlayer.Gang.gangLabel =ESX.Gangs.[gangData.gang].label
-  xPlayer.Gang.gradeName = ESX.Gangs.[gangData.gang].[gangData.playerGangGrade].name
-  xPlayer.Gang.gradeLabel = ESX.Gangs.[gangData.gang].[gangData.playerGangGrade].label
+RegisterNetEvent('esx_gangs:GangMembers')
+AddEventHandler('esx_gangs:GangMembers', function(members)
+   PlayerData.gang.members = members
+end)
 
+RegisterNetEvent('esx_gangs:UpdateGang')
+AddEventHandler('esx_gangs:UpdateGang', function (gang, grade)
+  PlayerData.gang = gang
+  PlayerData.gang_grade = grade
+  print ('GangData updated')
+  print (PlayerData.gang)
+  print (PlayerData.gang_grade)
+	PlayerData.gang.gang_label = ESX.Gangs[gang].label
+	PlayerData.gang.gang_grade_label = ESX.Gangs[gang].ranks[grade].label
+	PlayerData.gang.gang_grade_name = ESX.Gangs[gang].ranks[grade].name  
+end)
+
+
+--Debug to check current gangdata
+Citizen.CreateThread(function()
+  while true do
+    Citizen.Wait(0)
+	if IsControlPressed(0,  Keys['[']) then
+	  Citizen.Wait(500)
+	  print ('---Displaying Gang Data---')
+	    print (PlayerData.gang.gang_label)
+	    print (PlayerData.gang.gang_grade_label)
+	end
+  end
 end)
