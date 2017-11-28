@@ -18,7 +18,10 @@ PlayerData.gang = {
   gang_grade = nil,
   gang_label = nil,
   gang_grade_label = nil,
-  gang_grade_name = nil
+  gang_grade_name = nil,
+  money = 0,
+  locker = nil,
+  garage = nil
 }
 
 ESX              = nil
