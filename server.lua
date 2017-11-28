@@ -24,8 +24,6 @@ AddEventHandler('onMySQLReady', function ()
 		  name = name2,
 		  label = label2
 		}
-	    print (ESX.Gangs[name].label)
-		print (ESX.Gangs[name].ranks[grade].label)
 	  end
 	end)
 	
@@ -84,7 +82,15 @@ AddEventHandler('esx_gangs:setPlayerGang', function(source, player, gang, grade)
   ['@identifier'] = xPlayer.identifier
   }, function ()
   end)
-  TriggerClientEvent ('esx_gangs:UpdateGang', player, _gang, _grade)
+  
+  local gangData = {
+    name = _gang,
+	gang_grade = tonumber(_grade),
+	gang_label = ESX.Gangs[gang].label,
+	gang_grade_label = ESX.Gangs[gang].ranks[tonumber(grade)].label,
+	gang_grade_name = ESX.Gangs[gang].ranks[tonumber(grade)].name
+  }
+  TriggerClientEvent ('esx_gangs:UpdateGang', player, gangData)
 end)
 
 AddEventHandler('esx_gangs:getGangMoney', function(source, gang)
