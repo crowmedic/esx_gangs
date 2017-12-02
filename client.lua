@@ -39,15 +39,29 @@ RegisterNetEvent('esx_gangs:gangLoaded')
 AddEventHandler('esx_gangs:gangLoaded', function(gangData, Gangs)
     PlayerData.gang.name = gangData.gang
     PlayerData.gang.gang_grade = gangData.gang_grade
-	ESX.Gangs = Gangs
-	print ('GangData recieved')
-	print (PlayerData.gang.name)
-	print (PlayerData.gang.gang_grade)
-	
-	PlayerData.gang.gang_label = ESX.Gangs[gangData.gang].label
-	PlayerData.gang.gang_grade_label = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].label --this line works, receiving the same type data as below
-	PlayerData.gang.gang_grade_name = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].name
-	
+    ESX.Gangs = Gangs
+    print ('GangData recieved')
+    print (PlayerData.gang.name)
+    print (PlayerData.gang.gang_grade)
+    
+    PlayerData.gang.gang_label = ESX.Gangs[gangData.gang].label
+    PlayerData.gang.gang_grade_label = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].label
+    PlayerData.gang.gang_grade_name = ESX.Gangs[gangData.gang].ranks[gangData.gang_grade].name
+
+    local gangTpl = '<div>{{gang_label}} - {{gang_grade_label}}</div>'
+
+    
+    --HUD Gang Display         (name, index, priority, html, data)
+    ESX.UI.HUD.RegisterElement('gang', 3, 0, gangTpl, {
+        gang_label       = '',
+        gang_grade_label = ''
+    })
+
+    ESX.UI.HUD.UpdateElement('gang', {
+        gang_label          = PlayerData.gang.gang_label, --these are the labels for the gang data appropriate to rank/gang
+        gang_grade_label    = PlayerData.gang.gang_grade_label
+    })
+    
 end)
 
 RegisterNetEvent('esx_gangs:UpdateGang')
@@ -57,6 +71,12 @@ AddEventHandler('esx_gangs:UpdateGang', function (gangData)
   print ('Gang Updated')
   print (PlayerData.gang.gang_label)
   print (PlayerData.gang.gang_grade_label)
+  
+  
+    ESX.UI.HUD.UpdateElement('gang', {
+        gang_label          = PlayerData.gang.gang_label, --these are the labels for the gang data appropriate to rank/gang
+        gang_grade_label    = PlayerData.gang.gang_grade_label
+    })
 
 end)
 
