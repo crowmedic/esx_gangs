@@ -7,36 +7,31 @@ ESX.Gangs = {}
 AddEventHandler('onMySQLReady', function ()
 
   MySQL.Async.fetchAll('SELECT * FROM gangs', {}, function(gangs)
+    MySQL.Async.fetchAll('SELECT * FROM gang_grades', {}, function(grades)
 
-    for i=1, #gangs, 1 do
-	local name = gangs[i].name
-	local label = gangs[i].label
-	ESX.Gangs[name] = {
-		label = label,
-		ranks = {}
-	}
-	MySQL.Async.fetchAll('SELECT * FROM gang_grades WHERE gang_name = @name', {['@name'] = name}, function (grades)
-	  for i=1, #grades, 1 do
-	    local grade = grades[i].grade
-	    local name2 = grades[i].name
-	    local label2 = grades[i].label
-		ESX.Gangs[name].ranks[grade] = {
-		  name = name2,
-		  label = label2
-		}
-	  end
-	end)
-	
-    end
+      for i=1, #gangs, 1 do
+        ESX.Gangs[gangs[i].name] = {
+          label = gangs[i].label,
+		  color = json.decode(gangs[i].color),
+          ranks = {}
+        }
+      end
+
+      for i=1, #grades, 1 do
+        ESX.Gangs[grades[i].gang_name].ranks[grades[i].grade] = {
+            name = grades[i].name,
+            label = grades[i].label
+        }
+		print (grades[i].gang_name)
+		print (grades[i].label)
+      end    
+    end)
   end)  
 end)
 
 RegisterServerEvent('esx_gangs:getGangMembers')--Fetches all players in one gang
 RegisterServerEvent('esx_gangs:getPlayerGang')--Fetches player current gang and rank
 RegisterServerEvent('esx_gangs:setPlayerGang')--Sets player gang and rank
-RegisterServerEvent('esx_gangs:getGangMoney')--Gets society money for gang
-RegisterServerEvent('esx_gangs:addGangMoney')--Adds money to society
-RegisterServerEvent('esx_gangs:removeGangMoney')--Removes money from society
 RegisterServerEvent('esx_gangs:getGangLocker')--Gets weapons in gang locker
 RegisterServerEvent('esx_gangs:modifyGangLocker')--Modifies gang weapon locker
 
@@ -91,26 +86,6 @@ AddEventHandler('esx_gangs:setPlayerGang', function(source, player, gang, grade)
 	gang_grade_name = ESX.Gangs[gang].ranks[tonumber(grade)].name
   }
   TriggerClientEvent ('esx_gangs:UpdateGang', player, gangData)
-end)
-
-AddEventHandler('esx_gangs:getGangMoney', function(source, gang)
-
-end)
-
-AddEventHandler('esx_gangs:addGangMoney', function(source, gang, amount)
-
-end)
-
-AddEventHandler('esx_gangs:removeGangMoney', function(source, gang, amount)
-
-end)
-
-AddEventHandler('esx_gangs:getGangLocker', function(source, gang, cb)
-
-end)
-
-AddEventHandler('esx_gangs:modifyGangLocker', function(source, gang, locker)
-
 end)
 
 --setgang cmd
