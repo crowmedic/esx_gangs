@@ -1,6 +1,6 @@
 USE `essentialmode`;
 
-CREATE TABLE 'gangs' (
+CREATE TABLE `gangs` (
 
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE 'gangs' (
 INSERT INTO gangs (name, label)
 VALUES ('none', 'Unaffiliated'); 
 
-CREATE TABLE 'gang_grades' (
+CREATE TABLE `gang_grades` (
 
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `gang_name` varchar(255) NOT NULL,
